@@ -51,7 +51,7 @@ public class ArrayStorage {
 
     int size() {
         int storageSize = 0;
-        while (storage[storageSize] != null) {
+        while (storageSize < storage.length && storage[storageSize] != null) {
             storageSize++;
         }
         return storageSize;
