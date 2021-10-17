@@ -27,7 +27,7 @@ public class MainTestArrayStorage {
 
         System.out.println("\nUpdate r3 with r4: ");
         Resume r4 = new Resume();
-        r4.setUuid("uuid4");
+        r4.setUuid("uuid3");
         ARRAY_STORAGE.update(r4);
 
         printAll();
