@@ -7,19 +7,6 @@ import com.basejava.webapp.model.Resume;
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
-    public void save(Resume r) {
-        if (getIndex(r.getUuid()) == -1) {
-            if (size < storage.length) {
-                storage[size] = r;
-                size++;
-            } else {
-                System.out.println("Storage is full");
-            }
-        } else {
-            System.out.println("Resume with uuid = " + r.getUuid() + " already exists");
-        }
-    }
-
     protected int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (uuid.equals(storage[i].getUuid())) {
@@ -27,5 +14,10 @@ public class ArrayStorage extends AbstractArrayStorage {
             }
         }
         return -1;
+    }
+
+    protected void insert(Resume r) {
+        storage[size] = r;
+        size++;
     }
 }
