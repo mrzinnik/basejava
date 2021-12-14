@@ -16,8 +16,7 @@ public class ArrayStorage extends AbstractArrayStorage {
         return -1;
     }
 
-    protected void insert(Resume r) {
+    protected void insertElement(Resume r, int index) {
         storage[size] = r;
-        size++;
     }
 }

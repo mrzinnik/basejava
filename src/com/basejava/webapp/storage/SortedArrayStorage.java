@@ -15,10 +15,9 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         return Arrays.binarySearch(storage, 0, size, searchKey);
     }
 
-    protected void insert(Resume r) {
-        int insertionPoint = Math.abs(getIndex(r.getUuid()) + 1);
+    protected void insertElement(Resume r, int index) {
+        int insertionPoint = Math.abs(index + 1);
         System.arraycopy(storage, insertionPoint, storage, insertionPoint + 1, size - insertionPoint);
         storage[insertionPoint] = r;
-        size++;
     }
 }

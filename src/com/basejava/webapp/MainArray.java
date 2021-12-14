@@ -48,7 +48,7 @@ public class MainArray {
                     ARRAY_STORAGE.update(r);
                     printAll();
                     break;
-                    case "delete":
+                case "delete":
                     ARRAY_STORAGE.delete(uuid);
                     printAll();
                     break;
