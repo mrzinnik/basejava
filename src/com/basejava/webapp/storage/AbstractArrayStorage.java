@@ -17,22 +17,23 @@ public abstract class AbstractArrayStorage implements Storage {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
+    @Override
     public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
+    @Override
     public final void update(Resume r) {
-        String uuid = r.getUuid();
-        int index = getIndex(uuid);
+        int index = getIndex(r.getUuid());
         if (index < 0) {
-            throw new NotExistStorageException(uuid);
+            throw new NotExistStorageException(r.getUuid());
         } else {
             storage[index] = r;
-            System.out.println("Resume with uuid = " + uuid + " has been updated");
         }
     }
 
+    @Override
     public final void save(Resume r) {
         int index = getIndex(r.getUuid());
         if (index >= 0) {
@@ -45,6 +46,7 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
+    @Override
     public final Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
@@ -53,6 +55,7 @@ public abstract class AbstractArrayStorage implements Storage {
         return storage[index];
     }
 
+    @Override
     public final void delete(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
@@ -67,10 +70,12 @@ public abstract class AbstractArrayStorage implements Storage {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
+    @Override
     public Resume[] getAll() {
         return Arrays.copyOf(storage, size);
     }
 
+    @Override
     public int size() {
         return size;
     }
