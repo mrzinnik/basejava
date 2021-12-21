@@ -29,7 +29,7 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index < 0) {
             throw new NotExistStorageException(r.getUuid());
         } else {
-            storage[index] = r;
+            storage[index] = new Resume(r);
         }
     }
 
@@ -52,7 +52,7 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index < 0) {
             throw new NotExistStorageException(uuid);
         }
-        return storage[index];
+        return new Resume(storage[index]);
     }
 
     @Override
