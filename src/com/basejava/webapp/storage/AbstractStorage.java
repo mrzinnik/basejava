@@ -7,57 +7,48 @@ import com.basejava.webapp.model.Resume;
 public abstract class AbstractStorage implements Storage {
 
     @Override
-    public abstract void clear();
-
-    @Override
     public final void update(Resume r) {
-        int elementIndex = getElementIndex(r.getUuid());
-        if (elementIndex < 0) {
+        int resumeIndex = getResumeIndex(r.getUuid());
+        if (resumeIndex < 0) {
             throw new NotExistStorageException(r.getUuid());
         }
-        rewriteElement(r, elementIndex);
+        rewriteResume(r, resumeIndex);
     }
 
     @Override
     public final void save(Resume r) {
-        int elementIndex = getElementIndex(r.getUuid());
-        if (elementIndex >= 0) {
+        int resumeIndex = getResumeIndex(r.getUuid());
+        if (resumeIndex >= 0) {
             throw new ExistStorageException(r.getUuid());
         }
-        insertElement(r, elementIndex);
+        insertResume(r, resumeIndex);
     }
 
     @Override
     public final Resume get(String uuid) {
-        int elementIndex = getElementIndex(uuid);
-        if (elementIndex < 0) {
+        int resumeIndex = getResumeIndex(uuid);
+        if (resumeIndex < 0) {
             throw new NotExistStorageException(uuid);
         }
-        return getElementValue(uuid, elementIndex);
+        return getResume(uuid, resumeIndex);
     }
 
     @Override
     public final void delete(String uuid) {
-        int elementIndex = getElementIndex(uuid);
-        if (elementIndex < 0) {
+        int resumeIndex = getResumeIndex(uuid);
+        if (resumeIndex < 0) {
             throw new NotExistStorageException(uuid);
         }
-        removeElement(uuid, elementIndex);
+        removeResume(uuid, resumeIndex);
     }
 
-    @Override
-    public abstract Resume[] getAll();
+    protected abstract void rewriteResume(Resume r, int index);
 
-    @Override
-    public abstract int size();
+    protected abstract void insertResume(Resume r, int index);
 
-    protected abstract void rewriteElement(Resume r, int index);
+    protected abstract Resume getResume(String uuid, int index);
 
-    protected abstract void insertElement(Resume r, int index);
+    protected abstract int getResumeIndex(String uuid);
 
-    protected abstract Resume getElementValue(String uuid, int index);
-
-    protected abstract int getElementIndex(String uuid);
-
-    protected abstract void removeElement(String uuid, int index);
+    protected abstract void removeResume(String uuid, int index);
 }

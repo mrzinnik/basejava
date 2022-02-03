@@ -2,12 +2,12 @@ package com.basejava.webapp.storage;
 
 import com.basejava.webapp.model.Resume;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-public class ListStorage extends AbstractStorage {
+public class MapStorage extends AbstractStorage {
 
-    private List<Resume> storage = new ArrayList<>();
+    private Map<String, Resume> storage = new LinkedHashMap<>();
 
     @Override
     public void clear() {
@@ -16,7 +16,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        return storage.toArray(new Resume[0]);
+        return storage.values().toArray(new Resume[0]);
     }
 
     @Override
@@ -26,31 +26,29 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected void rewriteResume(Resume r, int index) {
-        storage.set(index, r);
+        storage.put(r.getUuid(), r);
     }
 
     @Override
     protected void insertResume(Resume r, int index) {
-        storage.add(storage.size(), r);
+        storage.put(r.getUuid(), r);
     }
 
     @Override
     protected Resume getResume(String uuid, int index) {
-        return storage.get(index);
+        return storage.get(uuid);
     }
 
     @Override
     protected int getResumeIndex(String uuid) {
-        for (int i = 0; i < storage.size(); i++) {
-            if (uuid.equals(storage.get(i).getUuid())) {
-                return i;
-            }
+        if (storage.containsKey(uuid)) {
+            return 1;
         }
         return -1;
     }
 
     @Override
     protected void removeResume(String uuid, int index) {
-        storage.remove(index);
+        storage.remove(uuid);
     }
 }
