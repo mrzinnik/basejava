@@ -10,13 +10,13 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected int getIndex(String uuid) {
+    protected int getElementIndex(String uuid) {
         Resume searchKey = new Resume(uuid);
         return Arrays.binarySearch(storage, 0, size, searchKey);
     }
 
     @Override
-    protected void insertElement(Resume r, int index) {
+    protected void insertToIndex(Resume r, int index) {
         int insertionPoint = Math.abs(index + 1);
         System.arraycopy(storage, insertionPoint, storage, insertionPoint + 1, size - insertionPoint);
         storage[insertionPoint] = r;
