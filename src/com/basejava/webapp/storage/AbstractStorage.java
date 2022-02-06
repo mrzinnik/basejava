@@ -8,47 +8,43 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public final void update(Resume r) {
-        int resumeIndex = getResumeIndex(r.getUuid());
-        if (resumeIndex < 0) {
+        if (!isResumeExist(r.getUuid())) {
             throw new NotExistStorageException(r.getUuid());
         }
-        rewriteResume(r, resumeIndex);
+        rewriteResume(r);
     }
 
     @Override
     public final void save(Resume r) {
-        int resumeIndex = getResumeIndex(r.getUuid());
-        if (resumeIndex >= 0) {
+        if (isResumeExist(r.getUuid())) {
             throw new ExistStorageException(r.getUuid());
         }
-        insertResume(r, resumeIndex);
+        insertResume(r);
     }
 
     @Override
     public final Resume get(String uuid) {
-        int resumeIndex = getResumeIndex(uuid);
-        if (resumeIndex < 0) {
+        if (!isResumeExist(uuid)) {
             throw new NotExistStorageException(uuid);
         }
-        return getResume(uuid, resumeIndex);
+        return getResume(uuid);
     }
 
     @Override
     public final void delete(String uuid) {
-        int resumeIndex = getResumeIndex(uuid);
-        if (resumeIndex < 0) {
+        if (!isResumeExist(uuid)) {
             throw new NotExistStorageException(uuid);
         }
-        removeResume(uuid, resumeIndex);
+        removeResume(uuid);
     }
 
-    protected abstract void rewriteResume(Resume r, int index);
+    protected abstract boolean isResumeExist(String uuid);
 
-    protected abstract void insertResume(Resume r, int index);
+    protected abstract void rewriteResume(Resume r);
 
-    protected abstract Resume getResume(String uuid, int index);
+    protected abstract void insertResume(Resume r);
 
-    protected abstract int getResumeIndex(String uuid);
+    protected abstract Resume getResume(String uuid);
 
-    protected abstract void removeResume(String uuid, int index);
+    protected abstract void removeResume(String uuid);
 }

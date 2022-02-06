@@ -25,21 +25,25 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void rewriteResume(Resume r, int index) {
-        storage.set(index, r);
+    protected boolean isResumeExist(String uuid) {
+        return getResumeIndex(uuid) != -1;
     }
 
     @Override
-    protected void insertResume(Resume r, int index) {
+    protected void rewriteResume(Resume r) {
+        storage.set(getResumeIndex(r.getUuid()), r);
+    }
+
+    @Override
+    protected void insertResume(Resume r) {
         storage.add(storage.size(), r);
     }
 
     @Override
-    protected Resume getResume(String uuid, int index) {
-        return storage.get(index);
+    protected Resume getResume(String uuid) {
+        return storage.get(getResumeIndex(uuid));
     }
 
-    @Override
     protected int getResumeIndex(String uuid) {
         for (int i = 0; i < storage.size(); i++) {
             if (uuid.equals(storage.get(i).getUuid())) {
@@ -50,7 +54,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void removeResume(String uuid, int index) {
-        storage.remove(index);
+    protected void removeResume(String uuid) {
+        storage.remove(getResumeIndex(uuid));
     }
 }
