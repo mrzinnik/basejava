@@ -26,7 +26,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected boolean isResumeExist(String uuid) {
-        return getResumeIndex(uuid) != -1;
+        return getResumeIndex(uuid) >= 0;
     }
 
     @Override
