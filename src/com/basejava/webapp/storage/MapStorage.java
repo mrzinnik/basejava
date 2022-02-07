@@ -46,7 +46,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected int getResumeIndex(String uuid) {
-        return -1;
+        throw new UnsupportedOperationException("Map entries have no index");
     }
 
     @Override
