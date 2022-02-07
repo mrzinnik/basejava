@@ -44,6 +44,7 @@ public class ListStorage extends AbstractStorage {
         return storage.get(getResumeIndex(uuid));
     }
 
+    @Override
     protected int getResumeIndex(String uuid) {
         for (int i = 0; i < storage.size(); i++) {
             if (uuid.equals(storage.get(i).getUuid())) {

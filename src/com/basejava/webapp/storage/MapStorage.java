@@ -45,6 +45,11 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
+    protected int getResumeIndex(String uuid) {
+        return -1;
+    }
+
+    @Override
     protected void removeResume(String uuid) {
         storage.remove(uuid);
     }

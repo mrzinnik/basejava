@@ -66,7 +66,5 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size--;
     }
 
-    protected abstract int getResumeIndex(String uuid);
-
     protected abstract void insertToArray(Resume r);
 }
