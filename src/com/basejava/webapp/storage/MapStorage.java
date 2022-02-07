@@ -8,6 +8,12 @@ import java.util.Map;
 public class MapStorage extends AbstractStorage {
 
     private Map<String, Resume> storage = new LinkedHashMap<>();
+    private String key;
+
+    @Override
+    protected void setSearchKey(String uuid) {
+        key = uuid;
+    }
 
     @Override
     public void clear() {
@@ -25,32 +31,27 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isResumeExist(String uuid) {
-        return storage.containsKey(uuid);
+    protected boolean isResumeExist() {
+        return storage.containsKey(key);
     }
 
     @Override
     protected void rewriteResume(Resume r) {
-        storage.put(r.getUuid(), r);
+        storage.put(key, r);
     }
 
     @Override
     protected void insertResume(Resume r) {
-        storage.put(r.getUuid(), r);
+        storage.put(key, r);
     }
 
     @Override
-    protected Resume getResume(String uuid) {
-        return storage.get(uuid);
+    protected Resume getResume() {
+        return storage.get(key);
     }
 
     @Override
-    protected int getResumeIndex(String uuid) {
-        throw new UnsupportedOperationException("Map entries have no index");
-    }
-
-    @Override
-    protected void removeResume(String uuid) {
-        storage.remove(uuid);
+    protected void removeResume() {
+        storage.remove(key);
     }
 }

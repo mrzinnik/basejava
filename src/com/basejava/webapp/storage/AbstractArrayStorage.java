@@ -14,6 +14,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
+    protected int index;
+
+    @Override
+    protected void setSearchKey(String uuid) {
+        index = getResumeIndex(uuid);
+    }
 
     @Override
     public void clear() {
@@ -35,13 +41,13 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isResumeExist(String uuid) {
-        return getResumeIndex(uuid) >= 0;
+    protected boolean isResumeExist() {
+        return index >= 0;
     }
 
     @Override
     protected final void rewriteResume(Resume r) {
-        storage[getResumeIndex(r.getUuid())] = r;
+        storage[index] = r;
     }
 
     @Override
@@ -54,17 +60,18 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected final Resume getResume(String uuid) {
-        return storage[getResumeIndex(uuid)];
+    protected final Resume getResume() {
+        return storage[index];
     }
 
     @Override
-    protected final void removeResume(String uuid) {
-        int index = getResumeIndex(uuid);
+    protected final void removeResume() {
         System.arraycopy(storage, index + 1, storage, index, size - (index + 1));
         storage[size - 1] = null;
         size--;
     }
+
+    protected abstract int getResumeIndex(String uuid);
 
     protected abstract void insertToArray(Resume r);
 }
