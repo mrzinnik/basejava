@@ -41,15 +41,15 @@ public abstract class AbstractStorage implements Storage {
         }
     }
 
-    protected abstract boolean isResumeExist(String searchKey);
+    protected abstract boolean isResumeExist(Object searchKey);
 
-    protected abstract String findSearchKey(String uuid);
+    protected abstract Object findSearchKey(String uuid);
 
-    protected abstract void rewriteResume(Resume r, String searchKey);
+    protected abstract void rewriteResume(Resume r, Object searchKey);
 
-    protected abstract void insertResume(Resume r, String searchKey);
+    protected abstract void insertResume(Resume r, Object searchKey);
 
-    protected abstract Resume getResume(String searchKey);
+    protected abstract Resume getResume(Object searchKey);
 
-    protected abstract void removeResume(String searchKey);
+    protected abstract void removeResume(Object searchKey);
 }
