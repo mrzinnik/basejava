@@ -8,34 +8,30 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public final void update(Resume r) {
-        setSearchKey(r.getUuid());
         checkResumeForExistence(r.getUuid(), true);
-        rewriteResume(r);
+        rewriteResume(r, findSearchKey(r.getUuid()));
     }
 
     @Override
     public final void save(Resume r) {
-        setSearchKey(r.getUuid());
         checkResumeForExistence(r.getUuid(), false);
-        insertResume(r);
+        insertResume(r, findSearchKey(r.getUuid()));
     }
 
     @Override
     public final Resume get(String uuid) {
-        setSearchKey(uuid);
         checkResumeForExistence(uuid, true);
-        return getResume();
+        return getResume(findSearchKey(uuid));
     }
 
     @Override
     public final void delete(String uuid) {
-        setSearchKey(uuid);
         checkResumeForExistence(uuid, true);
-        removeResume();
+        removeResume(findSearchKey(uuid));
     }
 
     private void checkResumeForExistence(String uuid, boolean expectedResult) {
-        boolean isExist = isResumeExist();
+        boolean isExist = isResumeExist(findSearchKey(uuid));
         if (isExist ^ expectedResult) {
             if (isExist) {
                 throw new ExistStorageException(uuid);
@@ -45,15 +41,15 @@ public abstract class AbstractStorage implements Storage {
         }
     }
 
-    protected abstract void setSearchKey(String uuid);
+    protected abstract boolean isResumeExist(String searchKey);
 
-    protected abstract boolean isResumeExist();
+    protected abstract String findSearchKey(String uuid);
 
-    protected abstract void rewriteResume(Resume r);
+    protected abstract void rewriteResume(Resume r, String searchKey);
 
-    protected abstract void insertResume(Resume r);
+    protected abstract void insertResume(Resume r, String searchKey);
 
-    protected abstract Resume getResume();
+    protected abstract Resume getResume(String searchKey);
 
-    protected abstract void removeResume();
+    protected abstract void removeResume(String searchKey);
 }

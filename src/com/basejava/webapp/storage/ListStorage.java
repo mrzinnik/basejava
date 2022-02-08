@@ -8,17 +8,6 @@ import java.util.List;
 public class ListStorage extends AbstractStorage {
 
     private List<Resume> storage = new ArrayList<>();
-    private int index;
-
-    @Override
-    protected void setSearchKey(String uuid) {
-        index = -1;
-        for (int i = 0; i < storage.size(); i++) {
-            if (uuid.equals(storage.get(i).getUuid())) {
-                index = i;
-            }
-        }
-    }
 
     @Override
     public void clear() {
@@ -36,27 +25,41 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isResumeExist() {
-        return index >= 0;
+    protected boolean isResumeExist(String searchKey) {
+        return searchKeyToIndex(searchKey) >= 0;
     }
 
     @Override
-    protected void rewriteResume(Resume r) {
-        storage.set(index, r);
+    protected String findSearchKey(String uuid) {
+        for (int i = 0; i < storage.size(); i++) {
+            if (uuid.equals(storage.get(i).getUuid())) {
+                return Integer.toString(i);
+            }
+        }
+        return "-1";
     }
 
     @Override
-    protected void insertResume(Resume r) {
+    protected void rewriteResume(Resume r, String searchKey) {
+        storage.set(searchKeyToIndex(searchKey), r);
+    }
+
+    @Override
+    protected void insertResume(Resume r, String searchKey) {
         storage.add(storage.size(), r);
     }
 
     @Override
-    protected Resume getResume() {
-        return storage.get(index);
+    protected Resume getResume(String searchKey) {
+        return storage.get(searchKeyToIndex(searchKey));
     }
 
     @Override
-    protected void removeResume() {
-        storage.remove(index);
+    protected void removeResume(String searchKey) {
+        storage.remove(searchKeyToIndex(searchKey));
+    }
+
+    private int searchKeyToIndex(String searchKey) {
+        return Integer.parseInt(searchKey);
     }
 }

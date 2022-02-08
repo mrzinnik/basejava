@@ -8,12 +8,6 @@ import java.util.Map;
 public class MapStorage extends AbstractStorage {
 
     private Map<String, Resume> storage = new LinkedHashMap<>();
-    private String key;
-
-    @Override
-    protected void setSearchKey(String uuid) {
-        key = uuid;
-    }
 
     @Override
     public void clear() {
@@ -31,27 +25,32 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isResumeExist() {
-        return storage.containsKey(key);
+    protected boolean isResumeExist(String searchKey) {
+        return storage.containsKey(searchKey);
     }
 
     @Override
-    protected void rewriteResume(Resume r) {
-        storage.put(key, r);
+    protected String findSearchKey(String uuid) {
+        return uuid;
     }
 
     @Override
-    protected void insertResume(Resume r) {
-        storage.put(key, r);
+    protected void rewriteResume(Resume r, String searchKey) {
+        storage.put(searchKey, r);
     }
 
     @Override
-    protected Resume getResume() {
-        return storage.get(key);
+    protected void insertResume(Resume r, String searchKey) {
+        storage.put(searchKey, r);
     }
 
     @Override
-    protected void removeResume() {
-        storage.remove(key);
+    protected Resume getResume(String searchKey) {
+        return storage.get(searchKey);
+    }
+
+    @Override
+    protected void removeResume(String searchKey) {
+        storage.remove(searchKey);
     }
 }

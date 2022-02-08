@@ -14,12 +14,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
-    protected int index;
-
-    @Override
-    protected void setSearchKey(String uuid) {
-        index = getResumeIndex(uuid);
-    }
 
     @Override
     public void clear() {
@@ -41,37 +35,47 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isResumeExist() {
-        return index >= 0;
+    protected boolean isResumeExist(String searchKey) {
+        return searchKeyToIndex(searchKey) >= 0;
     }
 
     @Override
-    protected final void rewriteResume(Resume r) {
-        storage[index] = r;
+    protected String findSearchKey(String uuid) {
+        return Integer.toString(getResumeIndex(uuid));
     }
 
     @Override
-    protected final void insertResume(Resume r) {
+    protected final void rewriteResume(Resume r, String searchKey) {
+        storage[searchKeyToIndex(searchKey)] = r;
+    }
+
+    @Override
+    protected final void insertResume(Resume r, String searchKey) {
         if (size == STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", r.getUuid());
         }
-        insertToArray(r);
+        insertToArray(r, searchKeyToIndex(searchKey));
         size++;
     }
 
     @Override
-    protected final Resume getResume() {
-        return storage[index];
+    protected final Resume getResume(String searchKey) {
+        return storage[searchKeyToIndex(searchKey)];
     }
 
     @Override
-    protected final void removeResume() {
+    protected final void removeResume(String searchKey) {
+        int index = searchKeyToIndex(searchKey);
         System.arraycopy(storage, index + 1, storage, index, size - (index + 1));
         storage[size - 1] = null;
         size--;
     }
 
+    protected abstract void insertToArray(Resume r, int index);
+
     protected abstract int getResumeIndex(String uuid);
 
-    protected abstract void insertToArray(Resume r);
+    private int searchKeyToIndex(String searchKey) {
+        return Integer.parseInt(searchKey);
+    }
 }

@@ -18,7 +18,7 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void insertToArray(Resume r) {
+    protected void insertToArray(Resume r, int index) {
         storage[size] = r;
     }
 }
