@@ -26,7 +26,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected boolean isResumeExist(Object searchKey) {
-        return searchKeyToIndex(searchKey) >= 0;
+        return (int) searchKey >= 0;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected void rewriteResume(Resume r, Object searchKey) {
-        storage.set(searchKeyToIndex(searchKey), r);
+        storage.set((int) searchKey, r);
     }
 
     @Override
@@ -51,15 +51,11 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected Resume getResume(Object searchKey) {
-        return storage.get(searchKeyToIndex(searchKey));
+        return storage.get((int) searchKey);
     }
 
     @Override
     protected void removeResume(Object searchKey) {
-        storage.remove(searchKeyToIndex(searchKey));
-    }
-
-    private int searchKeyToIndex(Object searchKey) {
-        return (int) searchKey;
+        storage.remove((int) searchKey);
     }
 }

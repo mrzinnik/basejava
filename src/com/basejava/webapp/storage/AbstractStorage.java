@@ -8,36 +8,41 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public final void update(Resume r) {
-        checkResumeForExistence(r.getUuid(), true);
-        rewriteResume(r, findSearchKey(r.getUuid()));
+        String uuid = r.getUuid();
+        Object searchKey = findSearchKey(uuid);
+        checkResumeForExistence(uuid, searchKey, true);
+        rewriteResume(r, searchKey);
     }
 
     @Override
     public final void save(Resume r) {
-        checkResumeForExistence(r.getUuid(), false);
-        insertResume(r, findSearchKey(r.getUuid()));
+        String uuid = r.getUuid();
+        Object searchKey = findSearchKey(uuid);
+        checkResumeForExistence(uuid, searchKey, false);
+        insertResume(r, searchKey);
     }
 
     @Override
     public final Resume get(String uuid) {
-        checkResumeForExistence(uuid, true);
-        return getResume(findSearchKey(uuid));
+        Object searchKey = findSearchKey(uuid);
+        checkResumeForExistence(uuid, searchKey, true);
+        return getResume(searchKey);
     }
 
     @Override
     public final void delete(String uuid) {
-        checkResumeForExistence(uuid, true);
-        removeResume(findSearchKey(uuid));
+        Object searchKey = findSearchKey(uuid);
+        checkResumeForExistence(uuid, searchKey, true);
+        removeResume(searchKey);
     }
 
-    private void checkResumeForExistence(String uuid, boolean expectedResult) {
-        boolean isExist = isResumeExist(findSearchKey(uuid));
+    private void checkResumeForExistence(String uuid, Object searchKey, boolean expectedResult) {
+        boolean isExist = isResumeExist(searchKey);
         if (isExist ^ expectedResult) {
             if (isExist) {
                 throw new ExistStorageException(uuid);
-            } else {
-                throw new NotExistStorageException(uuid);
             }
+            throw new NotExistStorageException(uuid);
         }
     }
 
