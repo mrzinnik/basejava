@@ -30,17 +30,17 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Object findSearchKey(String uuid) {
+    protected Object getSearchKey(String uuid) {
         return uuid;
     }
 
     @Override
-    protected void rewriteResume(Resume r, Object searchKey) {
+    protected void updateResume(Resume r, Object searchKey) {
         storage.put((String) searchKey, r);
     }
 
     @Override
-    protected void insertResume(Resume r, Object searchKey) {
+    protected void saveResume(Resume r, Object searchKey) {
         storage.put((String) searchKey, r);
     }
 
@@ -50,7 +50,7 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected void removeResume(Object searchKey) {
+    protected void deleteResume(Object searchKey) {
         storage.remove((String) searchKey);
     }
 }

@@ -40,17 +40,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Object findSearchKey(String uuid) {
-        return getResumeIndex(uuid);
-    }
-
-    @Override
-    protected final void rewriteResume(Resume r, Object searchKey) {
+    protected final void updateResume(Resume r, Object searchKey) {
         storage[(int) searchKey] = r;
     }
 
     @Override
-    protected final void insertResume(Resume r, Object searchKey) {
+    protected final void saveResume(Resume r, Object searchKey) {
         if (size == STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", r.getUuid());
         }
@@ -64,7 +59,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected final void removeResume(Object searchKey) {
+    protected final void deleteResume(Object searchKey) {
         int index = (int) searchKey;
         System.arraycopy(storage, index + 1, storage, index, size - (index + 1));
         storage[size - 1] = null;
@@ -72,6 +67,4 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     protected abstract void insertToArray(Resume r, int index);
-
-    protected abstract int getResumeIndex(String uuid);
 }
