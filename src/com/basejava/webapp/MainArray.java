@@ -38,12 +38,12 @@ public class MainArray {
                     System.out.println(ARRAY_STORAGE.size());
                     break;
                 case "save":
-                    r = new Resume(uuid);
+                    r = new Resume(uuid, "Name" + uuid);
                     ARRAY_STORAGE.save(r);
                     printAll();
                     break;
                 case "update":
-                    r = new Resume(uuid);
+                    r = new Resume(uuid, "Name1" + uuid);
                     ARRAY_STORAGE.update(r);
                     printAll();
                     break;

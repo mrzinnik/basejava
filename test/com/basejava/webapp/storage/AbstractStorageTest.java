@@ -6,6 +6,9 @@ import com.basejava.webapp.model.Resume;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public abstract class AbstractStorageTest {
@@ -14,7 +17,7 @@ public abstract class AbstractStorageTest {
     protected static final String[] NAMES = {"Alexander", "Boris", "Boris", "Nick", "Random", "Dummy"};
 
     protected Storage storage;
-    protected Resume[] exampleStorage = new Resume[4];
+    protected List<Resume> exampleStorage = new ArrayList<>();
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -23,9 +26,11 @@ public abstract class AbstractStorageTest {
     @Before
     public void setUp() {
         storage.clear();
-        for (int i = 0; i < exampleStorage.length; i++) {
-            exampleStorage[i] = new Resume(UUIDS[i], NAMES[i]);
-            storage.save(new Resume(UUIDS[exampleStorage.length - 1 - i], NAMES[exampleStorage.length - 1 - i]));
+        for (int i = 0; i < 4; i++) {
+            exampleStorage.add(i, new Resume(UUIDS[i], NAMES[i]));
+        }
+        for (int i = 3; i >= 0; i--) {
+            storage.save(exampleStorage.get(i));
         }
     }
 
@@ -38,8 +43,9 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        storage.update(exampleStorage[0]);
-        assertEquals(exampleStorage[0], storage.get(UUIDS[0]));
+        Resume updatedResume = new Resume(UUIDS[0], NAMES[5]);
+        storage.update(updatedResume);
+        assertSame(updatedResume, storage.get(UUIDS[0]));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -51,7 +57,7 @@ public abstract class AbstractStorageTest {
     public void save() {
         Resume resumeToSave = new Resume(UUIDS[4], NAMES[4]);
         storage.save(resumeToSave);
-        assertEquals(resumeToSave, storage.get(UUIDS[4]));
+        assertSame(resumeToSave, storage.get(UUIDS[4]));
         assertEquals(5, storage.size());
     }
 
@@ -62,7 +68,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void get() {
-        assertEquals(exampleStorage[0], storage.get(UUIDS[0]));
+        assertSame(exampleStorage.get(0), storage.get(UUIDS[0]));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -72,9 +78,10 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void delete() {
-        storage.delete(UUIDS[0]);
+        Resume resumeToDelete = exampleStorage.get(0);
+        storage.delete(resumeToDelete.getUuid());
         for (Resume r : storage.getAllSorted()) {
-            assertNotEquals(exampleStorage[0], r);
+            assertNotSame(resumeToDelete, r);
         }
         assertEquals(3, storage.size());
     }
@@ -86,7 +93,11 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAllSorted() {
-        assertArrayEquals(exampleStorage, storage.getAllSorted().toArray(new Resume[0]));
+        List<Resume> sortedStorage = storage.getAllSorted();
+        assertEquals(exampleStorage.size(), sortedStorage.size());
+        for (int i = 0; i < exampleStorage.size(); i++) {
+            assertSame(exampleStorage.get(i), sortedStorage.get(i));
+        }
     }
 
     @Test
