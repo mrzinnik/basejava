@@ -27,9 +27,7 @@ public abstract class AbstractStorageTest {
     public void setUp() {
         storage.clear();
         for (int i = 0; i < 4; i++) {
-            exampleStorage.add(i, new Resume(UUIDS[i], NAMES[i]));
-        }
-        for (int i = 3; i >= 0; i--) {
+            exampleStorage.add(new Resume(UUIDS[i], NAMES[i]));
             storage.save(exampleStorage.get(i));
         }
     }
@@ -57,7 +55,7 @@ public abstract class AbstractStorageTest {
     public void save() {
         Resume resumeToSave = new Resume(UUIDS[4], NAMES[4]);
         storage.save(resumeToSave);
-        assertSame(resumeToSave, storage.get(UUIDS[4]));
+        assertEquals(resumeToSave, storage.get(UUIDS[4]));
         assertEquals(5, storage.size());
     }
 
@@ -68,7 +66,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void get() {
-        assertSame(exampleStorage.get(0), storage.get(UUIDS[0]));
+        assertEquals(exampleStorage.get(0), storage.get(UUIDS[0]));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -81,7 +79,7 @@ public abstract class AbstractStorageTest {
         Resume resumeToDelete = exampleStorage.get(0);
         storage.delete(resumeToDelete.getUuid());
         for (Resume r : storage.getAllSorted()) {
-            assertNotSame(resumeToDelete, r);
+            assertNotEquals(resumeToDelete, r);
         }
         assertEquals(3, storage.size());
     }
@@ -93,11 +91,12 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAllSorted() {
-        List<Resume> sortedStorage = storage.getAllSorted();
-        assertEquals(exampleStorage.size(), sortedStorage.size());
-        for (int i = 0; i < exampleStorage.size(); i++) {
-            assertSame(exampleStorage.get(i), sortedStorage.get(i));
-        }
+        assertEquals(exampleStorage, storage.getAllSorted());
+//        List<Resume> sortedStorage = storage.getAllSorted();
+//        assertEquals(exampleStorage.size(), sortedStorage.size());
+//        for (int i = 0; i < exampleStorage.size(); i++) {
+//            assertEquals(exampleStorage.get(i), sortedStorage.get(i));
+//        }
     }
 
     @Test
