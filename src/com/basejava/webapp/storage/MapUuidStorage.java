@@ -2,27 +2,7 @@ package com.basejava.webapp.storage;
 
 import com.basejava.webapp.model.Resume;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-public class MapStorage extends AbstractStorage {
-
-    private Map<String, Resume> storage = new LinkedHashMap<>();
-
-    @Override
-    public void clear() {
-        storage.clear();
-    }
-
-    @Override
-    public Resume[] getAll() {
-        return storage.values().toArray(new Resume[0]);
-    }
-
-    @Override
-    public int size() {
-        return storage.size();
-    }
+public class MapUuidStorage extends AbstractMapStorage {
 
     @Override
     protected boolean isResumeExist(Object searchKey) {
