@@ -2,35 +2,35 @@ package com.basejava.webapp.storage;
 
 import com.basejava.webapp.model.Resume;
 
-public class MapUuidStorage extends AbstractMapStorage {
+public class MapUuidStorage extends AbstractMapStorage<String> {
 
     @Override
-    protected boolean isResumeExist(Object searchKey) {
-        return storage.containsKey((String) searchKey);
+    protected boolean isResumeExist(String key) {
+        return storage.containsKey(key);
     }
 
     @Override
-    protected Object getSearchKey(String uuid) {
+    protected String getSearchKey(String uuid) {
         return uuid;
     }
 
     @Override
-    protected void updateResume(Resume r, Object searchKey) {
-        storage.put((String) searchKey, r);
+    protected void updateResume(Resume r, String key) {
+        storage.put(key, r);
     }
 
     @Override
-    protected void saveResume(Resume r, Object searchKey) {
-        storage.put((String) searchKey, r);
+    protected void saveResume(Resume r, String key) {
+        storage.put(key, r);
     }
 
     @Override
-    protected Resume getResume(Object searchKey) {
-        return storage.get((String) searchKey);
+    protected Resume getResume(String key) {
+        return storage.get(key);
     }
 
     @Override
-    protected void deleteResume(Object searchKey) {
-        storage.remove((String) searchKey);
+    protected void deleteResume(String key) {
+        storage.remove(key);
     }
 }

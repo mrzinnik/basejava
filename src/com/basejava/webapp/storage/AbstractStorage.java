@@ -4,10 +4,10 @@ import com.basejava.webapp.exception.ExistStorageException;
 import com.basejava.webapp.exception.NotExistStorageException;
 import com.basejava.webapp.model.Resume;
 
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.List;
 
-public abstract class AbstractStorage implements Storage {
+public abstract class AbstractStorage<SK> implements Storage {
 
     @Override
     public final void update(Resume r) {
@@ -31,14 +31,13 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        Comparator<Resume> compareByFullNameAndUuid = Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid);
         List<Resume> listStorage = getStorageAsList();
-        listStorage.sort(compareByFullNameAndUuid);
+        Collections.sort(listStorage);
         return listStorage;
     }
 
-    private Object checkResumeForExistence(String uuid, boolean mustExist) {
-        Object searchKey = getSearchKey(uuid);
+    private SK checkResumeForExistence(String uuid, boolean mustExist) {
+        SK searchKey = getSearchKey(uuid);
         boolean isExist = isResumeExist(searchKey);
         if (isExist ^ mustExist) {
             if (isExist) {
@@ -49,17 +48,17 @@ public abstract class AbstractStorage implements Storage {
         return searchKey;
     }
 
-    protected abstract boolean isResumeExist(Object searchKey);
+    protected abstract boolean isResumeExist(SK searchKey);
 
-    protected abstract Object getSearchKey(String uuid);
+    protected abstract SK getSearchKey(String uuid);
 
-    protected abstract void updateResume(Resume r, Object searchKey);
+    protected abstract void updateResume(Resume r, SK searchKey);
 
-    protected abstract void saveResume(Resume r, Object searchKey);
+    protected abstract void saveResume(Resume r, SK searchKey);
 
-    protected abstract Resume getResume(Object searchKey);
+    protected abstract Resume getResume(SK searchKey);
 
-    protected abstract void deleteResume(Object searchKey);
+    protected abstract void deleteResume(SK searchKey);
 
     protected abstract List<Resume> getStorageAsList();
 }
