@@ -1,7 +1,8 @@
 package com.basejava.webapp;
 
+import com.basejava.webapp.model.ContactType;
+import com.basejava.webapp.model.Experience;
 import com.basejava.webapp.model.Resume;
-import com.basejava.webapp.model.Resume.ContactType;
 import com.basejava.webapp.model.SectionType;
 
 public class ResumeTestData {
@@ -17,33 +18,35 @@ public class ResumeTestData {
         testResume.addContactInfo(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473");
         testResume.addContactInfo(ContactType.HOMEPAGE, "http://gkislin.ru/");
 
-        testResume.addSectionInfo(SectionType.PERSONAL,
-                "Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры.");
+        Experience personalInfo = new Experience("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры.");
+        testResume.addSectionInfo(SectionType.PERSONAL, personalInfo);
 
-        testResume.addSectionInfo(SectionType.OBJECTIVE,
-                "Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям");
+        Experience objectiveInfo = new Experience("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям");
+        testResume.addSectionInfo(SectionType.OBJECTIVE, objectiveInfo);
 
-        testResume.addSectionInfo(SectionType.ACHIEVEMENT,
+        Experience achievementInfoOne = new Experience(
                 "С 2013 года: разработка проектов \"Разработка Web приложения\", \"Java Enterprise\", " +
                         "\"Многомодульный maven. Многопоточность. XML (JAXB/StAX). Веб сервисы (JAX-RS/SOAP). " +
                         "Удаленное взаимодействие (JMS/AKKA)\". Организация онлайн стажировок и ведение проектов. " +
                         "Более 1000 выпускников.");
-        testResume.addSectionInfo(SectionType.ACHIEVEMENT,
+        Experience achievementInfoTwo = new Experience(
                 "Реализация двухфакторной аутентификации для онлайн платформы управления проектами Wrike. " +
                         "Интеграция с Twilio, DuoSecurity, Google Authenticator, Jira, Zendesk.");
+        testResume.addSectionInfo(SectionType.ACHIEVEMENT, achievementInfoOne);
+        testResume.addSectionInfo(SectionType.ACHIEVEMENT, achievementInfoTwo);
 
-        testResume.addSectionInfo(SectionType.QUALIFICATIONS,
-                "JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2");
-        testResume.addSectionInfo(SectionType.QUALIFICATIONS,
-                "Version control: Subversion, Git, Mercury, ClearCase, Perforce");
+        Experience qualificationsInfoOne = new Experience("JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2");
+        Experience qualificationsInfoTwo = new Experience("Version control: Subversion, Git, Mercury, ClearCase, Perforce");
+        testResume.addSectionInfo(SectionType.QUALIFICATIONS, qualificationsInfoOne);
+        testResume.addSectionInfo(SectionType.QUALIFICATIONS, qualificationsInfoTwo);
 
-        testResume.addSectionInfo(SectionType.EXPERIENCE,
+        Experience experienceInfoOne = new Experience(
                 "Java Online Projects",
                 "2013-10",
                 "настоящее время",
                 "Автор проекта",
                 "Создание, организация и проведение Java онлайн проектов и стажировок.");
-        testResume.addSectionInfo(SectionType.EXPERIENCE,
+        Experience experienceInfoTwo = new Experience(
                 "Wrike",
                 "2014-10",
                 "2016-01",
@@ -51,17 +54,21 @@ public class ResumeTestData {
                 "Проектирование и разработка онлайн платформы управления проектами Wrike " +
                         "(Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). " +
                         "Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.");
+        testResume.addSectionInfo(SectionType.EXPERIENCE, experienceInfoOne);
+        testResume.addSectionInfo(SectionType.EXPERIENCE, experienceInfoTwo);
 
-        testResume.addSectionInfo(SectionType.EDUCATION,
+        Experience educationInfoOne = new Experience(
                 "Coursera",
                 "2013-03",
                 "2013-05",
                 "\"Functional Programming Principles in Scala\" by Martin Odersky");
-        testResume.addSectionInfo(SectionType.EDUCATION,
+        Experience educationInfoTwo = new Experience(
                 "Luxoft",
                 "2011-03",
                 "2011-04",
                 "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"");
+        testResume.addSectionInfo(SectionType.EDUCATION, educationInfoOne);
+        testResume.addSectionInfo(SectionType.EDUCATION, educationInfoTwo);
 
         System.out.println(testResume.getFullName());
         System.out.println("----------------------------");
